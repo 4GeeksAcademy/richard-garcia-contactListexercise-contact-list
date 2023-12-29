@@ -35,6 +35,38 @@ const getState = ({ getStore, setStore }) => {
 					.then(response => response.json()) //Convierte en json
 					.then(data => setStore({ contactos: data })) // Muestra la info por consola
 					.catch(error => console.log(error));
+			},
+			borrarContacto: id => {
+				fetch("https://playground.4geeks.com/apis/fake/contact/" + id, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json()) //Convierte en json
+					.then(data => console.log(data)) // Muestra la info por consola
+					.catch(error => console.log(error)); //muestra los errores por console(sí los hay)
+			},
+
+			editarContacto: (full_name, email, phone, address, id) => {
+				//Objeto con la informacion que queremos enviar en el fetch
+
+				let datos = {
+					full_name: full_name,
+					email: email,
+					agenda_slug: "richard",
+					address: address,
+					phone: phone
+				};
+
+				//Esta es la url donde se va a hacer el POST(Crear/guardar) con su respectiva configuracion(metodo,cuerpo,tipo de dato)
+
+				fetch("https://playground.4geeks.com/apis/fake/contact/" + id, {
+					method: "PUT",
+					body: JSON.stringify(datos),
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json()) //Convierte en json
+					.then(data => console.log(data)) // Muestra la info por consola
+					.catch(error => console.log(error)); //muestra los errores por console(sí los hay)
 			}
 		}
 	};

@@ -4,11 +4,13 @@ import { Context } from "../store/appContext.js";
 
 import { ContactCard } from "../component/ContactCard.js";
 import { Modal } from "../component/Modal";
+import { ModalEdit } from "../component/modalEdit.js";
 
 export const Contacts = () => {
 	const { store, actions } = useContext(Context);
 	const [state, setState] = useState({
-		showModal: false
+		showModal: false,
+		id: undefined
 	});
 	useEffect(() => {
 		actions.obtenerContacto();
@@ -32,13 +34,15 @@ export const Contacts = () => {
 								address={item.address}
 								id={item.id}
 								key={item.id}
-								onDelete={() => setState({ showModal: true })}
+								onDelete={() => setState({ showModal: true, id: item.id })}
+								onEdit={() => setState({ showModal: true, id: item.id })}
 							/>
 						))}
 					</ul>
 				</div>
 			</div>
-			<Modal show={state.showModal} onClose={() => setState({ showModal: false })} />
+			<Modal show={state.showModal} id={state.id} onClose={() => setState({ showModal: false })} />
+			<ModalEdit show={state.showModal} id={state.id} onClose={() => setState({ showModal: false })} />
 		</div>
 	);
 };
